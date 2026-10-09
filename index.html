@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#138a48">
+  <title>Workya Mart | Siwan</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7f5;
+      color: #202820;
+    }
+    header {
+      background: #138a48;
+      color: white;
+      padding: 18px 16px;
+    }
+    header h1 { margin: 0 0 6px; }
+    header p { margin: 0; }
+    main { padding: 16px; }
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 18px;
+    }
+    h2 { font-size: 20px; }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .product {
+      background: white;
+      padding: 14px;
+      border-radius: 12px;
+      box-shadow: 0 1px 5px #00000010;
+    }
+    .emoji { font-size: 42px; }
+    .product h3 { margin: 8px 0; font-size: 17px; }
+    .price { font-weight: bold; color: #138a48; }
+    button {
+      background: #138a48;
+      color: white;
+      border: 0;
+      padding: 10px;
+      border-radius: 8px;
+      width: 100%;
+      margin-top: 8px;
+      font-size: 15px;
+    }
+    #cart {
+      background: white;
+      padding: 14px;
+      margin-top: 18px;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🛒 Workya Mart</h1>
+    <p>आपके शहर Siwan की अपनी Grocery Shop</p>
+  </header>
+
+  <main>
+    <input id="search" placeholder="प्रोडक्ट खोजें..." />
+    <h2>हमारे प्रोडक्ट</h2>
+    <div class="products" id="products"></div>
+
+    <div id="cart">
+      <h2>आपका कार्ट</h2>
+      <p id="cartItems">अभी कार्ट खाली है।</p>
+      <strong id="total">कुल: ₹0</strong>
+      <button onclick="orderWhatsApp()">WhatsApp पर ऑर्डर करें</button>
+    </div>
+  </main>
+
+  <script>
+    const products = [
+      {name:"आलू", price:30, unit:"1 kg", emoji:"🥔"},
+      {name:"प्याज", price:40, unit:"1 kg", emoji:"🧅"},
+      {name:"सेब", price:120, unit:"1 kg", emoji:"🍎"},
+      {name:"केला", price:50, unit:"1 दर्जन", emoji:"🍌"},
+      {name:"चावल", price:60, unit:"1 kg", emoji:"🍚"},
+      {name:"दूध", price:30, unit:"500 ml", emoji:"🥛"}
+    ];
+
+    let cart = [];
+
+    function render() {
+      const query = document.getElementById("search").value.toLowerCase();
+      document.getElementById("products").innerHTML =
+        products.filter(p => p.name.toLowerCase().includes(query))
+        .map(p => `
+          <div class="product">
+            <div class="emoji">${p.emoji}</div>
+            <h3>${p.name}</h3>
+            <p>${p.unit}</p>
+            <div class="price">₹${p.price}</div>
+            <button onclick="addToCart('${p.name}')">कार्ट में जोड़ें</button>
+          </div>
+        `).join("");
+    }
+
+    function addToCart(name) {
+      const item = cart.find(p => p.name === name);
+      if (item) item.qty++;
+      else cart.push({...products.find(p => p.name === name), qty:1});
+      updateCart();
+    }
+
+    function updateCart() {
+      document.getElementById("cartItems").innerHTML =
+        cart.length
+        ? cart.map(p => `${p.name} × ${p.qty} = ₹${p.price*p.qty}`).join("<br>")
+        : "अभी कार्ट खाली है।";
+
+      document.getElementById("total").textContent =
+        "कुल: ₹" + cart.reduce((sum,p) => sum+p.price*p.qty, 0);
+    }
+
+    function orderWhatsApp() {
+      if (!cart.length) {
+        alert("पहले कोई प्रोडक्ट कार्ट में जोड़ें।");
+        return;
+      }
+      const lines = cart.map(p =>
+        `${p.name} × ${p.qty} = ₹${p.price*p.qty}`
+      ).join("\n");
+      const total = cart.reduce((sum,p) => sum+p.price*p.qty, 0);
+      const message = `Workya Mart Order\n${lines}\nकुल: ₹${total}`;
+      // अपना सत्यापित बिजनेस नंबर बाद में जोड़ें।
+      const phone = "";
+      if (!phone) {
+        alert("WhatsApp ऑर्डर चालू करने के लिए बिजनेस नंबर जोड़ना बाकी है।");
+        return;
+      }
+      window.open(
+        "https://wa.me/" + phone + "?text=" + encodeURIComponent(message),
+        "_blank"
+      );
+    }
+
+    document.getElementById("search").addEventListener("input", render);
+    render();
+  </script>
+</body>
+</html>
