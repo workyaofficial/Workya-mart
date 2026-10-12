@@ -1,155 +1,164 @@
-
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#138a48">
-  <title>Workya Mart | Siwan</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f7f5;
-      color: #202820;
-    }
-    header {
-      background: #138a48;
-      color: white;
-      padding: 18px 16px;
-    }
-    header h1 { margin: 0 0 6px; }
-    header p { margin: 0; }
-    main { padding: 16px; }
-    input {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 16px;
-      margin-bottom: 18px;
-    }
-    h2 { font-size: 20px; }
-    .products {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .product {
-      background: white;
-      padding: 14px;
-      border-radius: 12px;
-      box-shadow: 0 1px 5px #00000010;
-    }
-    .emoji { font-size: 42px; }
-    .product h3 { margin: 8px 0; font-size: 17px; }
-    .price { font-weight: bold; color: #138a48; }
-    button {
-      background: #138a48;
-      color: white;
-      border: 0;
-      padding: 10px;
-      border-radius: 8px;
-      width: 100%;
-      margin-top: 8px;
-      font-size: 15px;
-    }
-    #cart {
-      background: white;
-      padding: 14px;
-      margin-top: 18px;
-      border-radius: 12px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16a34a">
+<title>Workya Mart</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<style>
+:root{--g:#16a34a;--gd:#15803d;--bg:#f6f8f6;--tx:#1f2937;--mu:#6b7280}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);padding-bottom:90px}
+header{background:var(--g);color:#fff;padding:14px 16px 12px;position:sticky;top:0;z-index:10}
+header h1{font-size:20px}
+header p{font-size:12px;opacity:.9;margin-bottom:10px}
+#search{width:100%;padding:11px 14px;border:0;border-radius:10px;font-size:15px;outline:none}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 16px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;padding:8px 14px;border-radius:20px;background:#fff;border:1px solid #d1d5db;font-size:14px;cursor:pointer}
+.chip.on{background:var(--g);color:#fff;border-color:var(--g)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:4px 16px 16px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}}
+.card{background:#fff;border-radius:14px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;flex-direction:column}
+.emoji{font-size:46px;text-align:center;padding:8px 0}
+.name{font-weight:600;font-size:15px}
+.unit{color:var(--mu);font-size:12px;margin:2px 0 8px}
+.row{display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+.price{font-weight:700;color:var(--gd)}
+.add{background:var(--g);color:#fff;border:0;border-radius:8px;padding:7px 14px;font-weight:600;cursor:pointer}
+.qty{display:flex;align-items:center;gap:8px}
+.qty button{width:28px;height:28px;border-radius:8px;border:0;background:var(--g);color:#fff;font-size:18px;cursor:pointer}
+.empty{text-align:center;color:var(--mu);padding:40px 16px}
+#bar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));background:var(--gd);color:#fff;border-radius:14px;padding:14px 16px;display:none;justify-content:space-between;align-items:center;font-weight:600;cursor:pointer;z-index:20}
+#sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:30}
+#panel{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;max-height:85vh;overflow:auto;padding:16px}
+#panel h2{margin-bottom:10px}
+.ci{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #eee}
+.tot{display:flex;justify-content:space-between;font-weight:700;font-size:17px;padding:14px 0}
+input.f{width:100%;padding:11px;border:1px solid #d1d5db;border-radius:10px;font-size:15px;margin-bottom:8px}
+.wa{width:100%;background:#25d366;color:#fff;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:700;cursor:pointer}
+.close{float:right;background:none;border:0;font-size:24px;cursor:pointer}
+</style>
 </head>
 <body>
-  <header>
-    <h1>🛒 Workya Mart</h1>
-    <p>आपके शहर Siwan की अपनी Grocery Shop</p>
-  </header>
+<header>
+  <h1>🛒 Workya Mart</h1>
+  <p>Ghar baithe taaza kirana, seedha aapke darwaze par</p>
+  <input id="search" type="search" placeholder="Search karein: aloo, doodh, atta...">
+</header>
+<div class="chips" id="chips"></div>
+<div class="grid" id="grid"></div>
+<div id="bar" onclick="openCart()"><span id="barL"></span><span>Cart dekhein ›</span></div>
 
-  <main>
-    <input id="search" placeholder="प्रोडक्ट खोजें..." />
-    <h2>हमारे प्रोडक्ट</h2>
-    <div class="products" id="products"></div>
+<div id="sheet" onclick="if(event.target===this)closeCart()">
+  <div id="panel">
+    <button class="close" onclick="closeCart()">×</button>
+    <h2>Aapka Cart</h2>
+    <div id="items"></div>
+    <div class="tot"><span>Total</span><span id="tot"></span></div>
+    <input class="f" id="cname" placeholder="Aapka naam">
+    <input class="f" id="caddr" placeholder="Delivery address">
+    <button class="wa" onclick="order()">WhatsApp par order bhejein</button>
+  </div>
+</div>
 
-    <div id="cart">
-      <h2>आपका कार्ट</h2>
-      <p id="cartItems">अभी कार्ट खाली है।</p>
-      <strong id="total">कुल: ₹0</strong>
-      <button onclick="orderWhatsApp()">WhatsApp पर ऑर्डर करें</button>
-    </div>
-  </main>
+<script>
+// ====== SETTINGS: yahan apna WhatsApp number aur dukaan ka naam badlein ======
+const WHATSAPP = "919999999999"; // country code ke saath, bina + ke
+const SHOP = "Workya Mart";
+// ====== PRODUCTS: yahan naye items jodein ======
+const PRODUCTS = [
+ {id:1,n:"Aloo",u:"1 kg",p:30,c:"Sabzi",e:"🥔"},
+ {id:2,n:"Pyaaz",u:"1 kg",p:35,c:"Sabzi",e:"🧅"},
+ {id:3,n:"Tamatar",u:"1 kg",p:40,c:"Sabzi",e:"🍅"},
+ {id:4,n:"Hari Mirch",u:"250 g",p:20,c:"Sabzi",e:"🌶️"},
+ {id:5,n:"Kela",u:"1 dozen",p:60,c:"Fruits",e:"🍌"},
+ {id:6,n:"Seb",u:"1 kg",p:180,c:"Fruits",e:"🍎"},
+ {id:7,n:"Santra",u:"1 kg",p:90,c:"Fruits",e:"🍊"},
+ {id:8,n:"Doodh",u:"1 litre",p:60,c:"Dairy",e:"🥛"},
+ {id:9,n:"Paneer",u:"200 g",p:80,c:"Dairy",e:"🧀"},
+ {id:10,n:"Anda",u:"12 pcs",p:84,c:"Dairy",e:"🥚"},
+ {id:11,n:"Atta",u:"5 kg",p:240,c:"Anaaj-Dal",e:"🌾"},
+ {id:12,n:"Chawal",u:"5 kg",p:350,c:"Anaaj-Dal",e:"🍚"},
+ {id:13,n:"Toor Dal",u:"1 kg",p:150,c:"Anaaj-Dal",e:"🫘"},
+ {id:14,n:"Biscuit",u:"1 pack",p:20,c:"Snacks",e:"🍪"},
+ {id:15,n:"Namkeen",u:"200 g",p:50,c:"Snacks",e:"🥨"},
+ {id:16,n:"Chai Patti",u:"250 g",p:120,c:"Snacks",e:"🍵"}
+];
+const CATS = ["Sab", ...new Set(PRODUCTS.map(p=>p.c))];
+let cat = "Sab", q = "";
+let cart = {};
+try { cart = JSON.parse(localStorage.getItem("wm_cart")||"{}"); } catch(e){}
 
-  <script>
-    const products = [
-      {name:"आलू", price:30, unit:"1 kg", emoji:"🥔"},
-      {name:"प्याज", price:40, unit:"1 kg", emoji:"🧅"},
-      {name:"सेब", price:120, unit:"1 kg", emoji:"🍎"},
-      {name:"केला", price:50, unit:"1 दर्जन", emoji:"🍌"},
-      {name:"चावल", price:60, unit:"1 kg", emoji:"🍚"},
-      {name:"दूध", price:30, unit:"500 ml", emoji:"🥛"}
-    ];
+const $ = id => document.getElementById(id);
+const rs = n => "₹" + n;
 
-    let cart = [];
+function save(){ try{localStorage.setItem("wm_cart",JSON.stringify(cart));}catch(e){} }
 
-    function render() {
-      const query = document.getElementById("search").value.toLowerCase();
-      document.getElementById("products").innerHTML =
-        products.filter(p => p.name.toLowerCase().includes(query))
-        .map(p => `
-          <div class="product">
-            <div class="emoji">${p.emoji}</div>
-            <h3>${p.name}</h3>
-            <p>${p.unit}</p>
-            <div class="price">₹${p.price}</div>
-            <button onclick="addToCart('${p.name}')">कार्ट में जोड़ें</button>
-          </div>
-        `).join("");
-    }
+function renderChips(){
+  $("chips").innerHTML = CATS.map(c=>`<div class="chip ${c===cat?"on":""}" onclick="setCat('${c}')">${c}</div>`).join("");
+}
+function setCat(c){ cat=c; renderChips(); renderGrid(); }
 
-    function addToCart(name) {
-      const item = cart.find(p => p.name === name);
-      if (item) item.qty++;
-      else cart.push({...products.find(p => p.name === name), qty:1});
-      updateCart();
-    }
+function renderGrid(){
+  const list = PRODUCTS.filter(p => (cat==="Sab"||p.c===cat) && p.n.toLowerCase().includes(q));
+  if(!list.length){ $("grid").innerHTML = '<div class="empty" style="grid-column:1/-1">Kuch nahi mila 😕</div>'; return; }
+  $("grid").innerHTML = list.map(p=>{
+    const k = cart[p.id]||0;
+    const ctl = k
+      ? `<div class="qty"><button onclick="chg(${p.id},-1)">−</button><b>${k}</b><button onclick="chg(${p.id},1)">+</button></div>`
+      : `<button class="add" onclick="chg(${p.id},1)">Add</button>`;
+    return `<div class="card"><div class="emoji">${p.e}</div><div class="name">${p.n}</div><div class="unit">${p.u}</div><div class="row"><span class="price">${rs(p.p)}</span>${ctl}</div></div>`;
+  }).join("");
+}
 
-    function updateCart() {
-      document.getElementById("cartItems").innerHTML =
-        cart.length
-        ? cart.map(p => `${p.name} × ${p.qty} = ₹${p.price*p.qty}`).join("<br>")
-        : "अभी कार्ट खाली है।";
+function chg(id,d){
+  cart[id] = (cart[id]||0)+d;
+  if(cart[id]<=0) delete cart[id];
+  save(); renderGrid(); renderBar(); if($("sheet").style.display==="block") renderCart();
+}
+function totals(){
+  let n=0,t=0;
+  for(const id in cart){ const p=PRODUCTS.find(x=>x.id==id); if(p){ n+=cart[id]; t+=cart[id]*p.p; } }
+  return {n,t};
+}
+function renderBar(){
+  const {n,t}=totals();
+  $("bar").style.display = n ? "flex" : "none";
+  $("barL").textContent = n + " item • " + rs(t);
+}
+function renderCart(){
+  const {t}=totals();
+  $("items").innerHTML = Object.keys(cart).map(id=>{
+    const p=PRODUCTS.find(x=>x.id==id);
+    return `<div class="ci"><div>${p.e} ${p.n} <small style="color:#6b7280">(${p.u})</small><br><small>${rs(p.p)} × ${cart[id]} = ${rs(p.p*cart[id])}</small></div><div class="qty"><button onclick="chg(${p.id},-1)">−</button><b>${cart[id]}</b><button onclick="chg(${p.id},1)">+</button></div></div>`;
+  }).join("") || '<div class="empty">Cart khaali hai</div>';
+  $("tot").textContent = rs(t);
+  if(!Object.keys(cart).length) closeCart();
+}
+function openCart(){ renderCart(); $("sheet").style.display="block"; }
+function closeCart(){ $("sheet").style.display="none"; }
 
-      document.getElementById("total").textContent =
-        "कुल: ₹" + cart.reduce((sum,p) => sum+p.price*p.qty, 0);
-    }
+function order(){
+  const {t}=totals();
+  const name=$("cname").value.trim(), addr=$("caddr").value.trim();
+  if(!Object.keys(cart).length) return;
+  if(!name||!addr){ alert("Kripya naam aur address bharein"); return; }
+  let m = "*Naya Order - " + SHOP + "*\n\n";
+  for(const id in cart){ const p=PRODUCTS.find(x=>x.id==id); m += `• ${p.n} (${p.u}) × ${cart[id]} = ${rs(p.p*cart[id])}\n`; }
+  m += `\n*Total: ${rs(t)}*\n\nNaam: ${name}\nAddress: ${addr}`;
+  window.open("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(m),"_blank");
+}
 
-    function orderWhatsApp() {
-      if (!cart.length) {
-        alert("पहले कोई प्रोडक्ट कार्ट में जोड़ें।");
-        return;
-      }
-      const lines = cart.map(p =>
-        `${p.name} × ${p.qty} = ₹${p.price*p.qty}`
-      ).join("\n");
-      const total = cart.reduce((sum,p) => sum+p.price*p.qty, 0);
-      const message = `Workya Mart Order\n${lines}\nकुल: ₹${total}`;
-      // अपना सत्यापित बिजनेस नंबर बाद में जोड़ें।
-      const phone = "";
-      if (!phone) {
-        alert("WhatsApp ऑर्डर चालू करने के लिए बिजनेस नंबर जोड़ना बाकी है।");
-        return;
-      }
-      window.open(
-        "https://wa.me/" + phone + "?text=" + encodeURIComponent(message),
-        "_blank"
-      );
-    }
+$("search").addEventListener("input",e=>{ q=e.target.value.toLowerCase().trim(); renderGrid(); });
+renderChips(); renderGrid(); renderBar();
 
-    document.getElementById("search").addEventListener("input", render);
-    render();
-  </script>
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+}
+</script>
 </body>
 </html>
