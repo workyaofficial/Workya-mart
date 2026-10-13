@@ -67,7 +67,7 @@ input.f{width:100%;padding:11px;border:1px solid #d1d5db;border-radius:10px;font
 
 <script>
 // ====== SETTINGS: yahan apna WhatsApp number aur dukaan ka naam badlein ======
-const WHATSAPP = "919999999999"; // country code ke saath, bina + ke
+const WHATSAPP = "918578904855"; // country code ke saath, bina + ke
 const SHOP = "Workya Mart";
 // ====== PRODUCTS: yahan naye items jodein ======
 const PRODUCTS = [
@@ -157,7 +157,7 @@ $("search").addEventListener("input",e=>{ q=e.target.value.toLowerCase().trim();
 renderChips(); renderGrid(); renderBar();
 
 if("serviceWorker" in navigator){
-  window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+  window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(console.error));
 }
 </script>
 </body>
