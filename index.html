@@ -3,161 +3,396 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#16a34a">
+<meta name="theme-color" content="#15803d">
+<meta name="description" content="Workya Mart - Siwan mein online grocery ordering.">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Workya Mart">
 <title>Workya Mart</title>
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="icon.svg">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icon.svg">
+
 <style>
-:root{--g:#16a34a;--gd:#15803d;--bg:#f6f8f6;--tx:#1f2937;--mu:#6b7280}
+:root{--g:#16a34a;--d:#15803d;--bg:#f5f8f5;--tx:#1f2937;--mu:#6b7280}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);padding-bottom:90px}
-header{background:var(--g);color:#fff;padding:14px 16px 12px;position:sticky;top:0;z-index:10}
-header h1{font-size:20px}
-header p{font-size:12px;opacity:.9;margin-bottom:10px}
-#search{width:100%;padding:11px 14px;border:0;border-radius:10px;font-size:15px;outline:none}
-.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 16px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;padding:8px 14px;border-radius:20px;background:#fff;border:1px solid #d1d5db;font-size:14px;cursor:pointer}
-.chip.on{background:var(--g);color:#fff;border-color:var(--g)}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:4px 16px 16px}
-@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}}
-.card{background:#fff;border-radius:14px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;flex-direction:column}
-.emoji{font-size:46px;text-align:center;padding:8px 0}
-.name{font-weight:600;font-size:15px}
-.unit{color:var(--mu);font-size:12px;margin:2px 0 8px}
-.row{display:flex;align-items:center;justify-content:space-between;margin-top:auto}
-.price{font-weight:700;color:var(--gd)}
-.add{background:var(--g);color:#fff;border:0;border-radius:8px;padding:7px 14px;font-weight:600;cursor:pointer}
-.qty{display:flex;align-items:center;gap:8px}
-.qty button{width:28px;height:28px;border-radius:8px;border:0;background:var(--g);color:#fff;font-size:18px;cursor:pointer}
-.empty{text-align:center;color:var(--mu);padding:40px 16px}
-#bar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));background:var(--gd);color:#fff;border-radius:14px;padding:14px 16px;display:none;justify-content:space-between;align-items:center;font-weight:600;cursor:pointer;z-index:20}
-#sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:30}
-#panel{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;max-height:85vh;overflow:auto;padding:16px}
-#panel h2{margin-bottom:10px}
-.ci{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #eee}
-.tot{display:flex;justify-content:space-between;font-weight:700;font-size:17px;padding:14px 0}
-input.f{width:100%;padding:11px;border:1px solid #d1d5db;border-radius:10px;font-size:15px;margin-bottom:8px}
-.wa{width:100%;background:#25d366;color:#fff;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:700;cursor:pointer}
-.close{float:right;background:none;border:0;font-size:24px;cursor:pointer}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--tx);padding-bottom:100px}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+header{background:var(--g);color:white;padding:14px 16px;position:sticky;top:0;z-index:10}
+.head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+h1{font-size:22px}
+header p{font-size:12px;margin:3px 0 12px}
+#installBtn{display:none;background:#ffffff20;border:1px solid #ffffff88;color:white;border-radius:9px;padding:8px;font-size:12px}
+#search{width:100%;padding:12px;border:0;border-radius:10px;font-size:16px}
+.notice{padding:12px 16px;color:var(--d);font-size:13px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:0 16px 14px;scrollbar-width:none}
+.chip{flex-shrink:0;padding:8px 14px;border-radius:22px;border:1px solid #ddd;background:white}
+.chip.on{background:var(--g);color:white;border-color:var(--g)}
+h2.section{font-size:18px;padding:4px 16px 12px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0 12px 20px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));padding-inline:20px}}
+@media(min-width:950px){.grid{grid-template-columns:repeat(4,minmax(0,1fr));max-width:1200px;margin:auto}}
+.card{background:white;border-radius:14px;padding:12px;box-shadow:0 2px 7px #0000000a;display:flex;flex-direction:column;min-width:0}
+.emoji{text-align:center;font-size:44px;padding:8px}
+.name{font-size:15px;font-weight:700;overflow-wrap:anywhere}
+.unit{font-size:12px;color:var(--mu);margin:4px 0 12px}
+.pr{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-top:auto}
+.price{font-weight:800;color:var(--d)}
+.add,.qty button{background:var(--g);color:white;border:0;border-radius:8px;font-weight:700}
+.add{padding:8px 12px}
+.qty{display:flex;align-items:center;gap:7px}
+.qty button{width:30px;height:30px;font-size:18px}
+.empty{text-align:center;color:var(--mu);padding:35px 12px;grid-column:1/-1}
+#bar{display:none;position:fixed;bottom:calc(12px + env(safe-area-inset-bottom));left:12px;right:12px;z-index:20;background:var(--d);color:white;border-radius:14px;padding:15px;justify-content:space-between;align-items:center;box-shadow:0 4px 15px #0002}
+#sheet{display:none;position:fixed;inset:0;background:#0008;z-index:30}
+#panel{position:absolute;bottom:0;width:100%;max-height:90vh;overflow-y:auto;background:white;border-radius:20px 20px 0 0;padding:18px 16px calc(22px + env(safe-area-inset-bottom))}
+.panelhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.close{border:0;background:none;font-size:28px}
+.item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #eee}
+.item small{display:block;color:var(--mu);margin-top:4px}
+.total{display:flex;justify-content:space-between;font-size:18px;font-weight:800;padding:16px 0}
+label{display:block;font-size:13px;font-weight:600;margin:10px 0 5px}
+.field{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:10px;background:white;font-size:16px}
+.help{font-size:12px;color:var(--mu);margin-top:8px}
+.wa{width:100%;margin-top:14px;background:#16a34a;color:white;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:800}
+footer{text-align:center;color:var(--mu);font-size:12px;padding:20px}
 </style>
 </head>
 <body>
-<header>
-  <h1>🛒 Workya Mart</h1>
-  <p>Ghar baithe taaza kirana, seedha aapke darwaze par</p>
-  <input id="search" type="search" placeholder="Search karein: aloo, doodh, atta...">
-</header>
-<div class="chips" id="chips"></div>
-<div class="grid" id="grid"></div>
-<div id="bar" onclick="openCart()"><span id="barL"></span><span>Cart dekhein ›</span></div>
 
-<div id="sheet" onclick="if(event.target===this)closeCart()">
-  <div id="panel">
-    <button class="close" onclick="closeCart()">×</button>
-    <h2>Aapka Cart</h2>
-    <div id="items"></div>
-    <div class="tot"><span>Total</span><span id="tot"></span></div>
-    <input class="f" id="cname" placeholder="Aapka naam">
-    <input class="f" id="caddr" placeholder="Delivery address">
-    <button class="wa" onclick="order()">WhatsApp par order bhejein</button>
+<header>
+  <div class="head">
+    <div>
+      <h1>🛒 Workya Mart</h1>
+      <p>Ghar baithe grocery, aapki suvidha ke liye</p>
+    </div>
+    <button id="installBtn" type="button">📲 Install App</button>
   </div>
+  <input id="search" type="search" placeholder="Aloo, doodh, atta search karein..." aria-label="Product search">
+</header>
+
+<div class="notice">📍 Siwan City • WhatsApp par order karein</div>
+<nav class="chips" id="chips" aria-label="Categories"></nav>
+<h2 class="section">Aapke liye products</h2>
+<main class="grid" id="grid"></main>
+
+<div id="bar" role="button" tabindex="0">
+  <span id="barLeft"></span><strong>Cart dekhein ›</strong>
 </div>
 
+<div id="sheet" aria-hidden="true">
+  <section id="panel" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+    <div class="panelhead">
+      <h2 id="cartTitle">Aapka Cart</h2>
+      <button class="close" id="closeBtn" type="button" aria-label="Close">×</button>
+    </div>
+    <div id="items"></div>
+    <div class="total"><span>Product Total</span><span id="total">₹0</span></div>
+
+    <form id="orderForm">
+      <label for="cname">Aapka naam *</label>
+      <input class="field" id="cname" maxlength="80" autocomplete="name" required placeholder="Poora naam">
+
+      <label for="phone">Mobile number *</label>
+      <input class="field" id="phone" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" autocomplete="tel" required placeholder="10 digit mobile number">
+
+      <label for="addr">Delivery address *</label>
+      <textarea class="field" id="addr" rows="3" maxlength="400" autocomplete="street-address" required placeholder="Mohalla, road, house number, landmark"></textarea>
+
+      <label for="date">Pasand ki delivery date</label>
+      <input class="field" id="date" type="date">
+
+      <label for="note">Extra instructions (optional)</label>
+      <input class="field" id="note" maxlength="200" placeholder="Landmark ya anya jaankari">
+
+      <button class="wa" type="submit">WhatsApp par order bhejein</button>
+      <p class="help">WhatsApp khulne par Send dabayein. Order ki confirmation Workya Mart se milegi. Delivery charge WhatsApp par confirm hoga.</p>
+    </form>
+  </section>
+</div>
+
+<footer>Workya Mart • Help, without the hassle</footer>
+
 <script>
-// ====== SETTINGS: yahan apna WhatsApp number aur dukaan ka naam badlein ======
-const WHATSAPP = "918578904855"; // country code ke saath, bina + ke
+"use strict";
+
+// WhatsApp number: country code ke saath, bina + ke
+const WHATSAPP = "918578904855";
 const SHOP = "Workya Mart";
-// ====== PRODUCTS: yahan naye items jodein ======
+
+// Ye sample prices hain. Live karne se pehle actual rates update karein.
 const PRODUCTS = [
- {id:1,n:"Aloo",u:"1 kg",p:30,c:"Sabzi",e:"🥔"},
- {id:2,n:"Pyaaz",u:"1 kg",p:35,c:"Sabzi",e:"🧅"},
- {id:3,n:"Tamatar",u:"1 kg",p:40,c:"Sabzi",e:"🍅"},
- {id:4,n:"Hari Mirch",u:"250 g",p:20,c:"Sabzi",e:"🌶️"},
- {id:5,n:"Kela",u:"1 dozen",p:60,c:"Fruits",e:"🍌"},
- {id:6,n:"Seb",u:"1 kg",p:180,c:"Fruits",e:"🍎"},
- {id:7,n:"Santra",u:"1 kg",p:90,c:"Fruits",e:"🍊"},
- {id:8,n:"Doodh",u:"1 litre",p:60,c:"Dairy",e:"🥛"},
- {id:9,n:"Paneer",u:"200 g",p:80,c:"Dairy",e:"🧀"},
- {id:10,n:"Anda",u:"12 pcs",p:84,c:"Dairy",e:"🥚"},
- {id:11,n:"Atta",u:"5 kg",p:240,c:"Anaaj-Dal",e:"🌾"},
- {id:12,n:"Chawal",u:"5 kg",p:350,c:"Anaaj-Dal",e:"🍚"},
- {id:13,n:"Toor Dal",u:"1 kg",p:150,c:"Anaaj-Dal",e:"🫘"},
- {id:14,n:"Biscuit",u:"1 pack",p:20,c:"Snacks",e:"🍪"},
- {id:15,n:"Namkeen",u:"200 g",p:50,c:"Snacks",e:"🥨"},
- {id:16,n:"Chai Patti",u:"250 g",p:120,c:"Snacks",e:"🍵"}
+{id:1,n:"Aloo",u:"1 kg",p:30,c:"Sabzi",e:"🥔"},
+{id:2,n:"Pyaaz",u:"1 kg",p:35,c:"Sabzi",e:"🧅"},
+{id:3,n:"Tamatar",u:"1 kg",p:40,c:"Sabzi",e:"🍅"},
+{id:4,n:"Hari Mirch",u:"250 g",p:20,c:"Sabzi",e:"🌶️"},
+{id:5,n:"Kela",u:"1 dozen",p:60,c:"Fruits",e:"🍌"},
+{id:6,n:"Seb",u:"1 kg",p:180,c:"Fruits",e:"🍎"},
+{id:7,n:"Santra",u:"1 kg",p:90,c:"Fruits",e:"🍊"},
+{id:8,n:"Doodh",u:"1 litre",p:60,c:"Dairy",e:"🥛"},
+{id:9,n:"Paneer",u:"200 g",p:80,c:"Dairy",e:"🧀"},
+{id:10,n:"Anda",u:"12 pcs",p:84,c:"Dairy",e:"🥚"},
+{id:11,n:"Atta",u:"5 kg",p:240,c:"Anaaj-Dal",e:"🌾"},
+{id:12,n:"Chawal",u:"5 kg",p:350,c:"Anaaj-Dal",e:"🍚"},
+{id:13,n:"Toor Dal",u:"1 kg",p:150,c:"Anaaj-Dal",e:"🫘"},
+{id:14,n:"Biscuit",u:"1 pack",p:20,c:"Snacks",e:"🍪"},
+{id:15,n:"Namkeen",u:"200 g",p:50,c:"Snacks",e:"🥨"},
+{id:16,n:"Chai Patti",u:"250 g",p:120,c:"Snacks",e:"🍵"}
 ];
-const CATS = ["Sab", ...new Set(PRODUCTS.map(p=>p.c))];
-let cat = "Sab", q = "";
-let cart = {};
-try { cart = JSON.parse(localStorage.getItem("wm_cart")||"{}"); } catch(e){}
 
 const $ = id => document.getElementById(id);
-const rs = n => "₹" + n;
+const money = n => "₹" + n;
+const cats = ["Sab",...new Set(PRODUCTS.map(p=>p.c))];
+let cat = "Sab", query = "", cart = {};
 
-function save(){ try{localStorage.setItem("wm_cart",JSON.stringify(cart));}catch(e){} }
+try {
+  const saved = JSON.parse(localStorage.getItem("wm_cart") || "{}");
+  if(saved && typeof saved === "object" && !Array.isArray(saved)) cart = saved;
+} catch(e) {}
 
-function renderChips(){
-  $("chips").innerHTML = CATS.map(c=>`<div class="chip ${c===cat?"on":""}" onclick="setCat('${c}')">${c}</div>`).join("");
+function saveCart(){
+  try { localStorage.setItem("wm_cart",JSON.stringify(cart)); } catch(e) {}
 }
-function setCat(c){ cat=c; renderChips(); renderGrid(); }
+
+function cleanCart(){
+  for(const id of Object.keys(cart)){
+    if(!PRODUCTS.some(p=>String(p.id)===String(id)) ||
+       !Number.isSafeInteger(cart[id]) || cart[id]<1 || cart[id]>999){
+      delete cart[id];
+    }
+  }
+  saveCart();
+}
+
+function renderCats(){
+  $("chips").replaceChildren();
+  cats.forEach(c=>{
+    const b=document.createElement("button");
+    b.type="button";
+    b.className="chip"+(cat===c?" on":"");
+    b.textContent=c;
+    b.setAttribute("aria-pressed",String(cat===c));
+    b.onclick=()=>{cat=c;renderCats();renderGrid();};
+    $("chips").appendChild(b);
+  });
+}
+
+function changeQty(id,d){
+  const p=PRODUCTS.find(x=>x.id===id);
+  if(!p)return;
+  const n=(cart[id]||0)+d;
+  if(n<=0)delete cart[id];
+  else if(n<=999)cart[id]=n;
+  saveCart();
+  renderGrid();
+  renderBar();
+  if($("sheet").style.display==="block")renderCart();
+}
 
 function renderGrid(){
-  const list = PRODUCTS.filter(p => (cat==="Sab"||p.c===cat) && p.n.toLowerCase().includes(q));
-  if(!list.length){ $("grid").innerHTML = '<div class="empty" style="grid-column:1/-1">Kuch nahi mila 😕</div>'; return; }
-  $("grid").innerHTML = list.map(p=>{
-    const k = cart[p.id]||0;
-    const ctl = k
-      ? `<div class="qty"><button onclick="chg(${p.id},-1)">−</button><b>${k}</b><button onclick="chg(${p.id},1)">+</button></div>`
-      : `<button class="add" onclick="chg(${p.id},1)">Add</button>`;
-    return `<div class="card"><div class="emoji">${p.e}</div><div class="name">${p.n}</div><div class="unit">${p.u}</div><div class="row"><span class="price">${rs(p.p)}</span>${ctl}</div></div>`;
-  }).join("");
+  const list=PRODUCTS.filter(p=>
+    (cat==="Sab"||p.c===cat) &&
+    (p.n+" "+p.c).toLowerCase().includes(query)
+  );
+  $("grid").replaceChildren();
+  if(!list.length){
+    const e=document.createElement("div");
+    e.className="empty";e.textContent="Koi product nahi mila 😕";
+    $("grid").appendChild(e);return;
+  }
+
+  list.forEach(p=>{
+    const card=document.createElement("article");
+    card.className="card";
+    const emoji=document.createElement("div");
+    emoji.className="emoji";emoji.textContent=p.e;
+    const name=document.createElement("div");
+    name.className="name";name.textContent=p.n;
+    const unit=document.createElement("div");
+    unit.className="unit";unit.textContent=p.u;
+    const row=document.createElement("div");
+    row.className="pr";
+    const price=document.createElement("span");
+    price.className="price";price.textContent=money(p.p);
+    row.appendChild(price);
+
+    if(cart[p.id]){
+      const controls=document.createElement("div");
+      controls.className="qty";
+      const minus=document.createElement("button");
+      minus.type="button";minus.textContent="−";
+      minus.setAttribute("aria-label","Quantity kam karein");
+      minus.onclick=()=>changeQty(p.id,-1);
+      const count=document.createElement("b");
+      count.textContent=cart[p.id];
+      const plus=document.createElement("button");
+      plus.type="button";plus.textContent="+";
+      plus.setAttribute("aria-label","Quantity badhayein");
+      plus.onclick=()=>changeQty(p.id,1);
+      controls.append(minus,count,plus);
+      row.appendChild(controls);
+    }else{
+      const add=document.createElement("button");
+      add.type="button";add.className="add";add.textContent="Add";
+      add.onclick=()=>changeQty(p.id,1);
+      row.appendChild(add);
+    }
+    card.append(emoji,name,unit,row);
+    $("grid").appendChild(card);
+  });
 }
 
-function chg(id,d){
-  cart[id] = (cart[id]||0)+d;
-  if(cart[id]<=0) delete cart[id];
-  save(); renderGrid(); renderBar(); if($("sheet").style.display==="block") renderCart();
-}
 function totals(){
-  let n=0,t=0;
-  for(const id in cart){ const p=PRODUCTS.find(x=>x.id==id); if(p){ n+=cart[id]; t+=cart[id]*p.p; } }
-  return {n,t};
+  let count=0,amount=0;
+  for(const id of Object.keys(cart)){
+    const p=PRODUCTS.find(x=>String(x.id)===String(id));
+    if(p){count+=cart[id];amount+=cart[id]*p.p;}
+  }
+  return {count,amount};
 }
+
 function renderBar(){
-  const {n,t}=totals();
-  $("bar").style.display = n ? "flex" : "none";
-  $("barL").textContent = n + " item • " + rs(t);
+  const {count,amount}=totals();
+  $("bar").style.display=count?"flex":"none";
+  $("barLeft").textContent=count+" item • "+money(amount);
 }
+
+function closeCart(){
+  $("sheet").style.display="none";
+  $("sheet").setAttribute("aria-hidden","true");
+}
+
+function openCart(){
+  renderCart();
+  if(Object.keys(cart).length){
+    $("sheet").style.display="block";
+    $("sheet").setAttribute("aria-hidden","false");
+  }
+}
+
 function renderCart(){
-  const {t}=totals();
-  $("items").innerHTML = Object.keys(cart).map(id=>{
-    const p=PRODUCTS.find(x=>x.id==id);
-    return `<div class="ci"><div>${p.e} ${p.n} <small style="color:#6b7280">(${p.u})</small><br><small>${rs(p.p)} × ${cart[id]} = ${rs(p.p*cart[id])}</small></div><div class="qty"><button onclick="chg(${p.id},-1)">−</button><b>${cart[id]}</b><button onclick="chg(${p.id},1)">+</button></div></div>`;
-  }).join("") || '<div class="empty">Cart khaali hai</div>';
-  $("tot").textContent = rs(t);
-  if(!Object.keys(cart).length) closeCart();
+  cleanCart();
+  $("items").replaceChildren();
+  for(const id of Object.keys(cart)){
+    const p=PRODUCTS.find(x=>String(x.id)===String(id));
+    if(!p)continue;
+    const row=document.createElement("div");
+    row.className="item";
+    const info=document.createElement("div");
+    const title=document.createElement("strong");
+    title.textContent=p.e+" "+p.n;
+    const detail=document.createElement("small");
+    detail.textContent=p.u+" • "+money(p.p)+" × "+cart[id]+" = "+money(p.p*cart[id]);
+    info.append(title,detail);
+
+    const controls=document.createElement("div");
+    controls.className="qty";
+    const minus=document.createElement("button");
+    minus.type="button";minus.textContent="−";
+    minus.onclick=()=>changeQty(p.id,-1);
+    const count=document.createElement("b");
+    count.textContent=cart[id];
+    const plus=document.createElement("button");
+    plus.type="button";plus.textContent="+";
+    plus.onclick=()=>changeQty(p.id,1);
+    controls.append(minus,count,plus);
+    row.append(info,controls);
+    $("items").appendChild(row);
+  }
+  $("total").textContent=money(totals().amount);
+  if(!Object.keys(cart).length)closeCart();
 }
-function openCart(){ renderCart(); $("sheet").style.display="block"; }
-function closeCart(){ $("sheet").style.display="none"; }
 
-function order(){
-  const {t}=totals();
-  const name=$("cname").value.trim(), addr=$("caddr").value.trim();
-  if(!Object.keys(cart).length) return;
-  if(!name||!addr){ alert("Kripya naam aur address bharein"); return; }
-  let m = "*Naya Order - " + SHOP + "*\n\n";
-  for(const id in cart){ const p=PRODUCTS.find(x=>x.id==id); m += `• ${p.n} (${p.u}) × ${cart[id]} = ${rs(p.p*cart[id])}\n`; }
-  m += `\n*Total: ${rs(t)}*\n\nNaam: ${name}\nAddress: ${addr}`;
-  window.open("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(m),"_blank");
-}
+$("bar").onclick=openCart;
+$("bar").onkeydown=e=>{
+  if(e.key==="Enter"||e.key===" "){e.preventDefault();openCart();}
+};
+$("closeBtn").onclick=closeCart;
+$("sheet").onclick=e=>{if(e.target===$("sheet"))closeCart();};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeCart();});
+$("search").addEventListener("input",e=>{
+  query=e.target.value.trim().toLowerCase();renderGrid();
+});
 
-$("search").addEventListener("input",e=>{ q=e.target.value.toLowerCase().trim(); renderGrid(); });
-renderChips(); renderGrid(); renderBar();
+const now=new Date();
+$("date").min=[
+  now.getFullYear(),
+  String(now.getMonth()+1).padStart(2,"0"),
+  String(now.getDate()).padStart(2,"0")
+].join("-");
 
-if("serviceWorker" in navigator){
-  window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(console.error));
+$("orderForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  cleanCart();
+  if(!Object.keys(cart).length){
+    alert("Pehle cart mein product add karein.");closeCart();return;
+  }
+  const name=$("cname").value.trim();
+  const phone=$("phone").value.trim();
+  const address=$("addr").value.trim();
+  const date=$("date").value||"Confirm karna hai";
+  const note=$("note").value.trim();
+  if(!name||!address||!/^[0-9]{10}$/.test(phone)){
+    alert("Naam, sahi 10 digit mobile number aur poora address bharein.");return;
+  }
+  if($("date").value&&$("date").value<$("date").min){
+    alert("Aaj ya future ki date chunein.");return;
+  }
+
+  const {amount}=totals();
+  let msg="*"+SHOP+" - Naya Order*\n\n";
+  for(const id of Object.keys(cart)){
+    const p=PRODUCTS.find(x=>String(x.id)===String(id));
+    if(p)msg+="• "+p.n+" ("+p.u+") × "+cart[id]+" = "+money(p.p*cart[id])+"\n";
+  }
+  msg+="\n*Product Total: "+money(amount)+"*";
+  msg+="\nDelivery charge: Confirm karna hai";
+  msg+="\n\nNaam: "+name+"\nMobile: "+phone+"\nAddress: "+address;
+  msg+="\nPreferred date: "+date;
+  if(note)msg+="\nInstructions: "+note;
+  msg+="\n\nPlease confirm stock, final amount aur delivery time.";
+
+  const url="https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(msg);
+  const win=window.open(url,"_blank");
+  if(!win)window.location.href=url;
+  // Customer WhatsApp par order send karne ke baad bhi cart clear nahi hota.
+});
+
+cleanCart();
+renderCats();
+renderGrid();
+renderBar();
+
+let installPrompt=null;
+const installBtn=$("installBtn");
+
+window.addEventListener("beforeinstallprompt",e=>{
+  e.preventDefault();
+  installPrompt=e;
+  installBtn.style.display="block";
+});
+
+installBtn.addEventListener("click",async()=>{
+  if(!installPrompt){
+    alert("Browser menu (⋮) mein Install app ya Add to Home screen dekhein.");
+    return;
+  }
+  installPrompt.prompt();
+  await installPrompt.userChoice;
+  installPrompt=null;
+  installBtn.style.display="none";
+});
+
+window.addEventListener("appinstalled",()=>{
+  installBtn.style.display="none";installPrompt=null;
+});
+
+if("serviceWorker" in navigator && location.protocol==="https:"){
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("./service-worker.js")
+      .catch(err=>console.error("Service worker error:",err));
+  });
 }
 </script>
 </body>
